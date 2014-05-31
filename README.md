@@ -6,7 +6,7 @@ Rbac is a copy of rbac, modded for my need, provides a flexible way to add Role-
 
 In the `require` key of `composer.json` file add the following
 
-    "zizaco/rbac": "dev-master"
+    "joseph/rbac": "v1.0"
 
 Run the Composer update comand
 
