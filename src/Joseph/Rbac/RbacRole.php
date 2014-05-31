@@ -4,7 +4,7 @@ namespace Joseph\Rbac;
 use LaravelBook\Ardent\Ardent;
 use Config;
 
-class rbacRole extends Ardent
+class RbacRole extends Ardent
 {
 
     /**
