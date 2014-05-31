@@ -1,29 +1,23 @@
-# Entrust (Laravel4 Package)
+# Rbac (Laravel4 Package)
 
-![Entrust Poster](https://dl.dropbox.com/u/12506137/libs_bundles/entrust.png)
+![Rbac Poster](https://dl.dropbox.com/u/12506137/libs_bundles/Rbac.png)
 
-[![Build Status](https://api.travis-ci.org/Zizaco/entrust.png)](https://travis-ci.org/Zizaco/entrust)
-[![ProjectStatus](http://stillmaintained.com/Zizaco/entrust.png)](http://stillmaintained.com/Zizaco/entrust)
+[![Build Status](https://api.travis-ci.org/Rbac/Rbac.png)](https://travis-ci.org/Rbac/Rbac)
+[![ProjectStatus](http://stillmaintained.com/Rbac/Rbac.png)](http://stillmaintained.com/Rbac/Rbac)
 
-Entrust provides a flexible way to add Role-based Permissions to **Laravel4**.
-
-## Quick start
-
-**PS:** Even though it's not needed. Entrust works very well with [Confide](https://github.com/Zizaco/confide) in order to eliminate repetitive tasks involving the management of users: Account creation, login, logout, confirmation by e-mail, password reset, etc.
-
-[Take a look at Confide](https://github.com/Zizaco/confide)
+Rbac is a copy of Entrust modded for my need, provides a flexible way to add Role-based Permissions to **Laravel4**.
 
 ### Required setup
 
 In the `require` key of `composer.json` file add the following
 
-    "zizaco/entrust": "dev-master"
+    "joseph/Rbac": "1.*"
 
 Run the Composer update comand
 
     $ composer update
 
-In your `config/app.php` add `'Zizaco\Entrust\EntrustServiceProvider'` to the end of the `$providers` array
+In your `config/app.php` add `'Joseph\Rbac\RbacServiceProvider'` to the end of the `$providers` array
 
 ```php
 'providers' => array(
@@ -31,12 +25,11 @@ In your `config/app.php` add `'Zizaco\Entrust\EntrustServiceProvider'` to the en
     'Illuminate\Foundation\Providers\ArtisanServiceProvider',
     'Illuminate\Auth\AuthServiceProvider',
     ...
-    'Zizaco\Entrust\EntrustServiceProvider',
-
+    'Joseph\Rbac\RbacServiceProvider',
 ),
 ```
 
-At the end of `config/app.php` add `'Entrust'    => 'Zizaco\Entrust\EntrustFacade'` to the `$aliases` array
+At the end of `config/app.php` add `'Rbac'    => 'Rbac\Rbac\RbacFacade'` to the `$aliases` array
 
 ```php
 'aliases' => array(
@@ -44,22 +37,22 @@ At the end of `config/app.php` add `'Entrust'    => 'Zizaco\Entrust\EntrustFacad
     'App'        => 'Illuminate\Support\Facades\App',
     'Artisan'    => 'Illuminate\Support\Facades\Artisan',
     ...
-    'Entrust'    => 'Zizaco\Entrust\EntrustFacade',
+    'Rbac'    => 'Joseph\Rbac\RbacFacade',
 
 ),
 ```
 
 ### Configuration
 
-Set the propertly values to the `config/auth.php`. These values will be used by entrust to refer to the correct user table and model.
+Set the propertly values to the `config/auth.php`. These values will be used by Rbac to refer to the correct user table and model.
 
 ### User relation to roles
 
-Now generate the Entrust migration
+Now generate the Rbac migration
 
-    $ php artisan entrust:migration
+    $ php artisan rbac:migration
 
-It will generate the `<timestamp>_entrust_setup_tables.php` migration. You may now run it with the artisan migrate command:
+It will generate the `<timestamp>_rbac_setup_tables.php` migration. You may now run it with the artisan migrate command:
 
     $ php artisan migrate
 
@@ -72,9 +65,9 @@ Create a Role model following the example at `app/models/Role.php`:
 ```php
 <?php
 
-use Zizaco\Entrust\EntrustRole;
+use Rbac\Rbac\RbacRole;
 
-class Role extends EntrustRole
+class Role extends RbacRole
 {
 
 }
@@ -91,9 +84,9 @@ Create a Permission model following the example at `app/models/Permission.php`:
 ```php
 <?php
 
-use Zizaco\Entrust\EntrustPermission;
+use Rbac\Rbac\RbacPermission;
 
-class Permission extends EntrustPermission
+class Permission extends RbacPermission
 {
 
 }
@@ -108,7 +101,7 @@ Next, use the `HasRole` trait in your existing `User` model. For example:
 ```php
 <?php
 
-use Zizaco\Entrust\HasRole;
+use Rbac\Rbac\HasRole;
 
 class User extends Eloquent /* or ConfideUser 'wink' */{
     use HasRole; // Add this trait to your user model
@@ -144,7 +137,7 @@ $admin->save();
 Next, with both roles created let's assign then to the users. Thanks to the `HasRole` trait this are gonna be easy as:
 
 ```php
-$user = User::where('username','=','Zizaco')->first();
+$user = User::where('username','=','arun')->first();
 
 /* role attach alias */
 $user->attachRole( $admin ); // Parameter can be an Role object, array or id.
@@ -209,8 +202,8 @@ Here's an example output.
 
 ```php
 $options = array(
-'validate_all' => true,
-'return_type' => 'both'
+    'validate_all' => true,
+    'return_type' => 'both'
 );
 list($validate,$allValidations) = $user->ability(array('Admin','Owner'), array('manage_posts','manage_users'), $options);
 
@@ -237,22 +230,22 @@ To filter a route by permission or role you can call the following in your `app/
 ```php
 // Only users with roles that have the 'manage_posts' permission will
 // be able to access any route within admin/post.
-Entrust::routeNeedsPermission( 'admin/post*', 'manage_posts' );
+Rbac::routeNeedsPermission( 'admin/post*', 'manage_posts' );
 
 // Only owners will have access to routes within admin/advanced
-Entrust::routeNeedsRole( 'admin/advanced*', 'Owner' );
+Rbac::routeNeedsRole( 'admin/advanced*', 'Owner' );
 
 // Optionally the second parameter can be an array of permissions or roles.
 // User would need to match all roles or permissions for that route.
-Entrust::routeNeedsPermission( 'admin/post*', array('manage_posts','manage_comments') );
+Rbac::routeNeedsPermission( 'admin/post*', array('manage_posts','manage_comments') );
 
-Entrust::routeNeedsRole( 'admin/advanced*', array('Owner','Writer') );
+Rbac::routeNeedsRole( 'admin/advanced*', array('Owner','Writer') );
 ```
 
 Both of these methods accepts a third parameter. If the third parameter is null then the return of a prohibited access will be `App::abort(403)`. Otherwise the third parameter will be returned. So you can use it like:
 
 ```php
-Entrust::routeNeedsRole( 'admin/advanced*', 'Owner', Redirect::to('/home') );
+Rbac::routeNeedsRole( 'admin/advanced*', 'Owner', Redirect::to('/home') );
 ```
 
 Further both of these methods accept a fourth parameter. It defaults to true and checks all roles/permissions given.
@@ -261,24 +254,24 @@ you want to allow access for multiple groups.
 
 ```php
 // If a user has `manage_posts`, `manage_comments` or both they will have access.
-Entrust::routeNeedsPermission( 'admin/post*', array('manage_posts','manage_comments'), null, false );
+Rbac::routeNeedsPermission( 'admin/post*', array('manage_posts','manage_comments'), null, false );
 
 // If a user is a member of `Owner`, `Writer` or both they will have access.
-Entrust::routeNeedsRole( 'admin/advanced*', array('Owner','Writer'), null, false );
+Rbac::routeNeedsRole( 'admin/advanced*', array('Owner','Writer'), null, false );
 
 // If a user is a member of `Owner`, `Writer` or both, or user has `manage_posts`, `manage_comments` they will have access.
 // You can set the 4th parameter to true then user must be member of Role and must has Permission.
-Entrust::routeNeedsRoleOrPermission( 'admin/advanced*', array('Owner','Writer'), array('manage_posts','manage_comments'), null, false);
+Rbac::routeNeedsRoleOrPermission( 'admin/advanced*', array('Owner','Writer'), array('manage_posts','manage_comments'), null, false);
 ```
 
 ### Route filter
 
-Entrust roles/permissions can be used in filters by simply using the `can` and `hasRole` methods from within the Facade.
+Rbac roles/permissions can be used in filters by simply using the `can` and `hasRole` methods from within the Facade.
 
 ```php
 Route::filter('manage_posts', function()
 {
-    if (! Entrust::can('manage_posts') ) // Checks the current user
+    if (! Rbac::can('manage_posts') ) // Checks the current user
     {
         return Redirect::to('admin');
     }
@@ -294,7 +287,7 @@ Using a filter to check for a role:
 ```php
 Route::filter('owner_role', function()
 {
-    if (! Entrust::hasRole('Owner') ) // Checks the current user
+    if (! Rbac::hasRole('Owner') ) // Checks the current user
     {
         App::abort(404);
     }
@@ -304,7 +297,7 @@ Route::filter('owner_role', function()
 Route::when('admin/advanced*', 'owner_role');
 ```
 
-As you can see `Entrust::hasRole()` and `Entrust::can()` checks if the user is logged, and then if he has the role or permission. If the user is not logged the return will also be `false`.
+As you can see `Rbac::hasRole()` and `Rbac::can()` checks if the user is logged, and then if he has the role or permission. If the user is not logged the return will also be `false`.
 
 ## Troubleshooting
 
@@ -318,16 +311,16 @@ Then it's likely that the `id` column in your user table does not match the `use
 
 Name is having issues saving.
 
-EntrustRole->name has a length limitation set within the rules variable of the [EntrustRole class](https://github.com/Zizaco/entrust/blob/master/src/Zizaco/Entrust/EntrustRole.php#L21).
+RbacRole->name has a length limitation set within the rules variable of the [RbacRole class](https://github.com/Rbac/Rbac/blob/master/src/Rbac/Rbac/RbacRole.php#L21).
 
 You can adjust it by changing your Role Model.
 
 ```php
 <?php
 
-use Zizaco\Entrust\EntrustRole;
+use Rbac\Rbac\RbacRole;
 
-class Role extends EntrustRole
+class Role extends RbacRole
 {
     /**
      * Ardent validation rules
@@ -342,10 +335,10 @@ class Role extends EntrustRole
 
 ## License
 
-Entrust is free software distributed under the terms of the MIT license
+Rbac is free software distributed under the terms of the MIT license
 
 ## Aditional information
 
 Any questions, feel free to contact me or ask [here](http://forums.laravel.io/viewtopic.php?id=4658)
 
-Any issues, please [report here](https://github.com/Zizaco/entrust/issues)
+Any issues, please [report here](https://github.com/zizaco/Rbac/issues)
