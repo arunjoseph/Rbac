@@ -198,8 +198,8 @@ Here's an example output.
 
 ```php
 $options = array(
-'validate_all' => true,
-'return_type' => 'both'
+    'validate_all' => true,
+    'return_type' => 'both'
 );
 list($validate,$allValidations) = $user->ability(array('Admin','Owner'), array('manage_posts','manage_users'), $options);
 
@@ -208,14 +208,10 @@ var_dump($validate);
 bool(false)
 var_dump($allValidations);
 array(4) {
-  ['role']=>
-  bool(true)
-  ['role_2']=>
-  bool(false)
-  ['manage_posts']=>
-  bool(true)
-  ['manage_users']=>
-  bool(false)
+  ['role'] => bool(true)
+  ['role_2'] => bool(false)
+  ['manage_posts'] => bool(true)
+  ['manage_users'] => bool(false)
 }
 ```
 
