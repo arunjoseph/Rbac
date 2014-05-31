@@ -24,7 +24,7 @@ class Rbac
     }
 
     /**
-     * Checks if the current user has a Role by its name
+     * Used to check if the current user has a Role by its name
      *
      * @param $permission
      * @internal param string $name Role name.
