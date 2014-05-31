@@ -11,7 +11,7 @@ trait HasRole
      */
     public function roles()
     {
-        return $this->belongsToMany(Config::get('entrust::role'), Config::get('entrust::assigned_roles_table'));
+        return $this->belongsToMany(Config::get('rbac::role'), Config::get('rbac::assigned_roles_table'));
     }
 
     /**

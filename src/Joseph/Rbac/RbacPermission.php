@@ -4,7 +4,7 @@ namespace Joseph\Rbac;
 use LaravelBook\Ardent\Ardent;
 use Config;
 
-class EntrustPermission extends Ardent
+class RbacPermission extends Ardent
 {
     /**
      * The database table used by the model.
@@ -29,7 +29,7 @@ class EntrustPermission extends Ardent
     public function __construct(array $attributes = array()) {
 
         parent::__construct($attributes);
-        $this->table = Config::get('entrust::permissions_table');
+        $this->table = Config::get('rbac::permissions_table');
     }
 
     /**
@@ -37,7 +37,7 @@ class EntrustPermission extends Ardent
      */
     public function roles()
     {
-        return $this->belongsToMany(Config::get('entrust::role'), Config::get('entrust::permission_role_table'));
+        return $this->belongsToMany(Config::get('rbac::role'), Config::get('rbac::permission_role_table'));
     }
 
     /**
@@ -49,7 +49,7 @@ class EntrustPermission extends Ardent
     public function beforeDelete( $forced = false )
     {
         try {
-            \DB::table(Config::get('entrust::permission_role_table'))->where('permission_id', $this->id)->delete();
+            \DB::table(Config::get('rbac::permission_role_table'))->where('permission_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;

@@ -4,7 +4,7 @@ namespace Joseph\Rbac;
 use LaravelBook\Ardent\Ardent;
 use Config;
 
-class EntrustRole extends Ardent
+class rbacRole extends Ardent
 {
 
     /**
@@ -29,7 +29,7 @@ class EntrustRole extends Ardent
     public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);
-        $this->table = Config::get('entrust::roles_table');
+        $this->table = Config::get('rbac::roles_table');
     }
 
     /**
@@ -37,7 +37,7 @@ class EntrustRole extends Ardent
      */
     public function users()
     {
-        return $this->belongsToMany(Config::get('auth.model'), Config::get('entrust::assigned_roles_table'));
+        return $this->belongsToMany(Config::get('auth.model'), Config::get('rbac::assigned_roles_table'));
     }
 
     /**
@@ -49,7 +49,7 @@ class EntrustRole extends Ardent
         // To maintain backwards compatibility we'll catch the exception if the Permission table doesn't exist.
         // TODO remove in a future version
         try {
-            return $this->belongsToMany(Config::get('entrust::permission'), Config::get('entrust::permission_role_table'));
+            return $this->belongsToMany(Config::get('rbac::permission'), Config::get('rbac::permission_role_table'));
         } catch(Execption $e) {}
     }
 
@@ -70,6 +70,7 @@ class EntrustRole extends Ardent
      *
      * @param string $value
      * permissoins json
+     * @return array
      */
     public function getPermissionsAttribute($value)
     {
@@ -85,8 +86,8 @@ class EntrustRole extends Ardent
     public function beforeDelete( $forced = false )
     {
         try {
-            \DB::table(Config::get('entrust::assigned_roles_table'))->where('role_id', $this->id)->delete();
-            \DB::table(Config::get('entrust::permission_role_table'))->where('role_id', $this->id)->delete();
+            \DB::table(Config::get('rbac::assigned_roles_table'))->where('role_id', $this->id)->delete();
+            \DB::table(Config::get('rbac::permission_role_table'))->where('role_id', $this->id)->delete();
         } catch(Execption $e) {}
 
         return true;

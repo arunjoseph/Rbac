@@ -3,7 +3,7 @@ namespace Joseph\Rbac;
 
 use Illuminate\Support\Facades\Facade;
 
-class Entrust
+class Rbac
 {
     /**
      * Laravel application
@@ -16,7 +16,7 @@ class Entrust
      * Create a new confide instance.
      *
      * @param  Illuminate\Foundation\Application $app
-     * @return \Joseph\Rbac\Entrust
+     * @return \Joseph\Rbac\Rbac
      */
     public function __construct($app)
     {

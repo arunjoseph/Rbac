@@ -13,14 +13,14 @@ class MigrationCommand extends Command {
      *
      * @var string
      */
-    protected $name = 'entrust:migration';
+    protected $name = 'rbac:migration';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates a migration following the Entrust especifications.';
+    protected $description = 'Creates a migration following the rbac specifications.';
 
     /**
      * Create a new command instance.
@@ -31,7 +31,7 @@ class MigrationCommand extends Command {
     {
         parent::__construct();
         $app = app();
-        $app['view']->addNamespace('entrust',substr(__DIR__,0,-8).'views');
+        $app['view']->addNamespace('rbac',substr(__DIR__,0,-8).'views');
     }
 
     /**
@@ -93,9 +93,9 @@ class MigrationCommand extends Command {
      */
     protected function createMigration( $roles_table = 'roles' )
     {
-        $migration_file = $this->laravel->path."/database/migrations/".date('Y_m_d_His')."_entrust_setup_tables.php";
+        $migration_file = $this->laravel->path."/database/migrations/".date('Y_m_d_His')."_rbac_setup_tables.php";
         $app = app();
-        $output = $app['view']->make('entrust::generators.migration')->with('table', $roles_table)->render();
+        $output = $app['view']->make('rbac::generators.migration')->with('table', $roles_table)->render();
 
         if( ! file_exists( $migration_file ) )
         {

@@ -4,10 +4,10 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust Role Model
+    | Rbac Role Model
     |--------------------------------------------------------------------------
     |
-    | This is the Role model used by Entrust to create correct relations.  Update
+    | This is the Role model used by Rbac to create correct relations.  Update
     | the role if it is in a different namespace.
     |
     */
@@ -15,20 +15,20 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust Roles Table
+    | Rbac Roles Table
     |--------------------------------------------------------------------------
     |
-    | This is the Roles table used by Entrust to save roles to the database.
+    | This is the Roles table used by Rbac to save roles to the database.
     |
     */
     'roles_table' => 'roles',
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust Permission Model
+    | Rbac Permission Model
     |--------------------------------------------------------------------------
     |
-    | This is the Permission model used by Entrust to create correct relations.  Update
+    | This is the Permission model used by Rbac to create correct relations.  Update
     | the permission if it is in a different namespace.
     |
     */
@@ -36,30 +36,30 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust Permissions Table
+    | Rbac Permissions Table
     |--------------------------------------------------------------------------
     |
-    | This is the Permissions table used by Entrust to save permissions to the database.
+    | This is the Permissions table used by Rbac to save permissions to the database.
     |
     */
     'permissions_table' => 'permissions',
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust permission_role Table
+    | Rbac permission_role Table
     |--------------------------------------------------------------------------
     |
-    | This is the permission_role table used by Entrust to save relationship between permissions and roles to the database.
+    | This is the permission_role table used by Rbac to save relationship between permissions and roles to the database.
     |
     */
     'permission_role_table' => 'permission_role',
 
     /*
     |--------------------------------------------------------------------------
-    | Entrust assigned_roles Table
+    | Rbac assigned_roles Table
     |--------------------------------------------------------------------------
     |
-    | This is the assigned_roles table used by Entrust to save assigned roles to the database.
+    | This is the assigned_roles table used by Rbac to save assigned roles to the database.
     |
     */
     'assigned_roles_table' => 'assigned_roles',
