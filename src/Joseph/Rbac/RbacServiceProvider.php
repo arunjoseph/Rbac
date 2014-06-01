@@ -1,4 +1,5 @@
-<?php namespace cd;
+<?php
+namespace Joseph\Rbac;
 
 use Illuminate\Support\ServiceProvider;
 
