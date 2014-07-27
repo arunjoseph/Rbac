@@ -23,9 +23,9 @@
         "laravelbook/ardent": "2.4.*"
     },
     "require-dev": {
-        "illuminate/database": "4.x",
-        "mockery/mockery": "0.7.2",
-        "zizaco/factory-muff": "dev-master"
+        "illuminate/database": "4.1.*",
+        "mockery/mockery": "~0.9",
+        "league/factory-muffin": "~1.5"
     },
     "repositories": [
         {
